@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro - Rafa Joias Folheadas</title>
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/cadastro.css">
+
+  <!-- Fonte e Bootstrap -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="card-custom">
+    <!-- Imagem -->
+    <div class="card-img">
+      <img src="/img/esquerda.jpeg" alt="Imagem de joias elegantes">
+    </div>
+
+    <!-- Formulário -->
+    <div class="form-container">
+      <img src="/img/logo branca.jpg" alt="Logo da Rafa Joias" class="logo">
+      <h2>Crie sua conta</h2>
+
+      <form id="cadastro-form">
+        <div class="form-group">
+          <label for="nome">Nome de Perfil</label>
+          <input type="text" name="nome" id="nome" class="form-control" placeholder="Digite seu nome" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input type="email" name="email" id="email" class="form-control" placeholder="exemplo@email.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="senha">Senha</label>
+          <input type="password" name="senha" id="senha" class="form-control" placeholder="Crie uma senha segura" required minlength="6">
+        </div>
+
+        <div class="form-group">
+          <label for="data">Data de nascimento</label>
+          <input type="date" name="data" id="data" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+          <label for="genero">Gênero</label>
+          <select name="genero" id="genero" class="form-control" required>
+            <option value="">Selecione</option>
+            <option value="feminino">Feminino</option>
+            <option value="masculino">Masculino</option>
+            <option value="outro">Outro</option>
+            <option value="prefiro_nao_dizer">Prefiro não dizer</option>
+          </select>
+        </div>
+
+        <button type="submit" id="submit">Cadastrar</button>
+
+        <div class="login-link">
+          Já possui uma conta? <a href="/login">Entrar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('cadastro-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const nome = document.getElementById('nome').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const senha = document.getElementById('senha').value.trim();
+      const genero = document.getElementById('genero').value;
+
+      if (!nome || !email || !senha || !genero) {
+        alert('Por favor, preencha todos os campos.');
+        return;
+      }
+
+      if (senha.length < 6) {
+        alert('A senha deve conter pelo menos 6 caracteres.');
+        return;
+      }
+
+      // Simula cadastro e login
+      const usuario = { nome, email };
+      localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+
+      alert('Cadastro realizado com sucesso!');
+      window.location.href = '/';
+
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Rafa Joias Folheadas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style/login.css">
+</head>
+<body>
+  <!-- Fundo com imagem elegante -->
+  <div class="background-image"></div>
+
+  <!-- Container de login -->
+  <div class="login-container">
+    <img src="/img/logo branca.jpg" alt="Logo Rafa Joias Folheadas" class="logo">
+
+    <h1>Bem-vindo(a)!</h1>
+    <p class="subtitle">Entre para acessar sua conta</p>
+
+    <form id="login-form">
+      <div class="input-group">
+        <label for="username">Usuário</label>
+        <input type="text" id="username" name="username" placeholder="Digite seu nome de perfil" required>
+      </div>
+
+      <div class="input-group">
+        <label for="password">Senha</label>
+        <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+      </div>
+
+      <button type="submit">Entrar</button>
+    </form>
+
+    <p class="signup-text">
+      Não tem uma conta?
+      <a href="/html/cadastro.html">Cadastre-se aqui</a>
+    </p>
+  </div>
+
+  <script>
+    // Simula login com base no nome salvo no localStorage
+    document.getElementById('login-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const username = document.getElementById('username').value.trim();
+      const senha = document.getElementById('password').value.trim();
+
+      if (!username || !senha) {
+        alert('Por favor, preencha todos os campos.');
+        return;
+      }
+
+      const usuarioSalvo = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+      if (usuarioSalvo && usuarioSalvo.nome === username) {
+        alert(`Bem-vindo(a), ${usuarioSalvo.nome}!`);
+        window.location.href = '/html/main.html';
+      } else {
+        alert('Usuário não encontrado. Verifique seus dados ou cadastre-se.');
+      }
+    });
+  </script>
+</body>
+</html>
