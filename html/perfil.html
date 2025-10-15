@@ -3,19 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Fonte elegante -->
+  <!-- Fontes -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style/perfil.css">
-  <title>Rafa Joias Folheadas</title>
-  
-
+  <link rel="stylesheet" href="/css/perfil.css">
+  <title>Meu Perfil | Rafa Joias Folheadas</title>
 </head>
 <body>
   <!-- ===== CABEÇALHO ===== -->
   <header class="cabecalho">
     <div class="bloco">
-      <a href="index.html" class="logo-link">
-        <img src="/img/logo.jfif" alt="Logo da empresa" class="logo">
+      <a href="/" class="logo-link">
+        <img src="/img/logo branca.jpg" alt="Logo da empresa" class="logo">
       </a>
 
       <form class="pesquisa">
@@ -25,8 +23,8 @@
 
       <nav class="icones">
         <a href="#" class="icon-btn"><img src="/img/zap.png" alt="WhatsApp"></a>
-        <a href="#" class="icon-btn"><img src="/img/perfil.png" alt="Perfil"></a>
-        <a href="/html/carrinho.html" class="icon-btn">
+        <a href="/perfil" class="icon-btn"><img src="/img/perfil.png" alt="Perfil"></a>
+        <a href="/carrinho" class="icon-btn">
           <img src="/img/carrinho.png" alt="Carrinho">
           <span class="cart-count" id="cart-count">0</span>
         </a>
@@ -34,12 +32,73 @@
       </nav>
     </div>
   </header>
-    <section class="bloco_perfil">
-        <div class="usuario">
-          <img src="/img/usuario.jpg" alt="">
-           <p>Mariana Silva</p>
+
+  <!-- ===== PERFIL DO USUÁRIO ===== -->
+  <section class="bloco_perfil">
+    <div class="usuario">
+      <img src="/img/usuario.jpg" alt="Foto do usuário">
+      <h2 id="nome">Carregando...</h2>
+    </div>
+
+    <div class="dados">
+      <div class="info">
+        <p><strong>Email:</strong> <span id="email"></span></p>
+        <p><strong>Telefone:</strong> <span id="telefone"></span></p>
+        <p><strong>Endereço:</strong> <span id="endereco"></span></p>
+
+        <div class="botoes">
+          <button onclick="editarPerfil()">✏️ Editar Perfil</button>
+          <button onclick="sair()">🚪 Sair</button>
         </div>
-       
-        <div class="dados"></div>
-    </section>        
-  </body>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const userKey = "usuario_logado";
+
+    // Cria usuário de exemplo caso não exista
+    if (!localStorage.getItem(userKey)) {
+      const exemploUsuario = {
+        nome: "Rafaela Joias",
+        email: "contato@rafajoias.com",
+        telefone: "(44) 99999-9999",
+        endereco: "Rua das Pérolas, 123 - Cianorte/PR",
+      };
+      localStorage.setItem(userKey, JSON.stringify(exemploUsuario));
+    }
+
+    const usuario = JSON.parse(localStorage.getItem(userKey));
+
+    // Mostra os dados
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("nome").textContent = usuario.nome;
+      document.getElementById("email").textContent = usuario.email;
+      document.getElementById("telefone").textContent = usuario.telefone;
+      document.getElementById("endereco").textContent = usuario.endereco;
+    });
+
+    // Editar perfil
+    function editarPerfil() {
+      const novoNome = prompt("Novo nome:", usuario.nome);
+      const novoEmail = prompt("Novo e-mail:", usuario.email);
+      const novoTelefone = prompt("Novo telefone:", usuario.telefone);
+      const novoEndereco = prompt("Novo endereço:", usuario.endereco);
+
+      if (novoNome && novoEmail) {
+        const atualizado = { nome: novoNome, email: novoEmail, telefone: novoTelefone, endereco: novoEndereco };
+        localStorage.setItem(userKey, JSON.stringify(atualizado));
+        alert("✅ Perfil atualizado!");
+        location.reload();
+      }
+    }
+
+    // Logout
+    function sair() {
+      localStorage.removeItem(userKey);
+      alert("👋 Você saiu da conta.");
+      window.location.href = "/";
+    }
+  </script>
+</body>
+</html>

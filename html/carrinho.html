@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Carrinho - Rafa Joias Folheadas</title>
   <link rel="stylesheet" href="/css/carrinho.css">
+ 
 </head>
 <body>
   <h1>🛍️ Seu Carrinho</h1>
@@ -15,7 +16,6 @@
 
     <div class="botoes">
       <button id="voltar" class="btn" onclick="window.location.href='/'">⬅️ Voltar à Loja</button>
-
       <button id="limpar" class="btn">🗑️ Esvaziar Carrinho</button>
     </div>
   </div>
@@ -37,16 +37,18 @@
       }
 
       carrinho.forEach((produto, index) => {
-        total += produto.preco;
+        // Garantir que imagens de /aneis/ ou /img/ funcionem
+        let imgSrc = produto.img || '';
         const item = document.createElement('div');
         item.classList.add('item');
         item.innerHTML = `
-          <img src="${produto.img}" alt="${produto.nome}">
+          <img src="${imgSrc}" alt="${produto.nome}">
           <span>${produto.nome}</span>
           <span>R$ ${produto.preco.toFixed(2)}</span>
           <button onclick="removerItem(${index})">Remover</button>
         `;
         container.appendChild(item);
+        total += produto.preco;
       });
 
       totalEl.textContent = `💰 Total: R$ ${total.toFixed(2)}`;
@@ -64,6 +66,7 @@
       atualizarCarrinho();
     });
 
+    // Atualizar carrinho ao carregar a página
     atualizarCarrinho();
   </script>
 </body>
