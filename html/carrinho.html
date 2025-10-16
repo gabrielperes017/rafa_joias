@@ -37,7 +37,6 @@
       }
 
       carrinho.forEach((produto, index) => {
-        // Garantir que imagens de /aneis/ ou /img/ funcionem
         let imgSrc = produto.img || '';
         const item = document.createElement('div');
         item.classList.add('item');
@@ -66,7 +65,6 @@
       atualizarCarrinho();
     });
 
-    // Atualizar carrinho ao carregar a página
     atualizarCarrinho();
   </script>
 </body>

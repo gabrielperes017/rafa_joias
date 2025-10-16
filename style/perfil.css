@@ -5,7 +5,7 @@ body {
   margin: 0;
   font-family: 'Quicksand', sans-serif;
   color: #4b3b2b;
-  background-color: #fffdfb;
+  background-color: #fdf7f5;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -21,7 +21,6 @@ body::before {
   background-image: url('https://img.freepik.com/vetores-gratis/padrao-de-cor-pastel-aquarela_23-2149413430.jpg');
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
   filter: blur(5px) brightness(0.9);
   z-index: -1;
 }
@@ -31,7 +30,7 @@ header.cabecalho {
   position: fixed;
   top: 0;
   width: 100%;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   box-shadow: 0 6px 20px rgba(0,0,0,0.15);
   z-index: 100;
@@ -45,7 +44,7 @@ header.cabecalho {
 }
 
 .logo {
-  height: 78px;
+  height: 60px;
   border-radius: 50%;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -77,14 +76,15 @@ header.cabecalho {
 .pesquisa button:hover { transform: scale(1.2); }
 
 .icones img {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 .icones .icon-btn:hover img {
   transform: scale(1.15);
   filter: drop-shadow(0 3px 6px rgba(0,0,0,0.25));
 }
+
 .cart-count {
   position: absolute;
   top: -6px; right: -6px;
@@ -97,56 +97,45 @@ header.cabecalho {
   box-shadow: 0 2px 5px rgba(0,0,0,0.25);
 }
 
-/* ===== BLOCO PERFIL SEM FOTO ===== */
-.bloco_perfil {
-  width: 80%;
-  max-width: 500px;
-  background-color: rgba(255, 255, 255, 0.92);
-  margin-top: 160px;
-  border-radius: 25px;
-  border: 1px solid rgba(87,85,85,0.15);
-  box-shadow: 8px 8px 25px rgba(0,0,0,0.18);
+/* ===== CARD PERFIL ===== */
+.perfil-container {
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 30px;
-  animation: fadeIn 1s ease;
+  justify-content: center;
+  padding-top: 160px;
+  padding-bottom: 50px;
+}
+
+.perfil-card {
+  width: 95%;
+  max-width: 750px;  /* antes 450px → agora bem maior */
+  min-height: 500px; /* altura fixa aumentada */
+  background-color: rgba(255,255,255,0.97);
+  border-radius: 30px;
+  padding: 60px 50px;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.25);
   text-align: center;
+  animation: fadeIn 0.8s ease;
+  border: 1px solid #e0d0b5;
 }
 
-/* Remove a imagem do usuário */
-.usuario img {
-  display: none;
-}
-
+/* ===== TÍTULO ===== */
 .usuario h2 {
   font-family: 'Playfair Display', serif;
   font-size: 2rem;
   color: #6a3f2d;
-  margin: 0 0 20px 0;
-  letter-spacing: 1px;
-  animation: slideUp 0.8s ease forwards;
-}
-
-/* ===== DADOS ===== */
-.dados {
-  width: 100%;
-  background-color: rgba(255,255,255,0.9);
-  border-radius: 15px;
-  padding: 30px;
-  box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
   margin-bottom: 25px;
 }
 
+/* ===== DADOS ===== */
 .dados p {
-  font-size: 1.05rem;
-  margin: 12px 0;
+  font-size: 1.1rem;
+  margin: 15px 0;
   color: #3b2e1a;
   font-weight: 500;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
-/* Destaque para os labels */
 .dados strong {
   color: #6a3f2d;
   font-weight: 600;
@@ -157,7 +146,8 @@ header.cabecalho {
   display: flex;
   justify-content: center;
   gap: 20px;
-  margin-top: 15px;
+  margin-top: 40px;
+  flex-wrap: wrap;
 }
 
 .botoes button {
@@ -165,8 +155,8 @@ header.cabecalho {
   border: none;
   color: white;
   font-weight: 600;
-  padding: 12px 25px;
-  border-radius: 25px;
+  padding: 12px 35px;
+  border-radius: 30px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -176,5 +166,7 @@ header.cabecalho {
 }
 
 /* ===== ANIMAÇÕES ===== */
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes slideUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { 
+  from { opacity: 0; transform: translateY(10px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}

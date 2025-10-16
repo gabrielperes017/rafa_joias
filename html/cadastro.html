@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cadastro - Rafa Joias Folheadas</title>
+
   <!-- CSS -->
   <link rel="stylesheet" href="/css/cadastro.css">
 
@@ -55,42 +56,44 @@
           </select>
         </div>
 
-        <button type="submit" id="submit">Cadastrar</button>
+        <button type="submit" id="submit" class="btn btn-warning btn-block font-weight-bold" style="background:linear-gradient(135deg,#e3b16a,#c6974b);color:white;border:none;border-radius:25px;padding:10px 0;">Cadastrar</button>
 
-        <div class="login-link">
+        <div class="login-link mt-3">
           Já possui uma conta? <a href="/login">Entrar</a>
         </div>
       </form>
     </div>
   </div>
 
-  <script>
-    document.getElementById('cadastro-form').addEventListener('submit', function (e) {
-      e.preventDefault();
+<script>
+document.getElementById('cadastro-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-      const nome = document.getElementById('nome').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const senha = document.getElementById('senha').value.trim();
-      const genero = document.getElementById('genero').value;
+  const nome = document.getElementById('nome').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const senha = document.getElementById('senha').value;
+  const data_nascimento = document.getElementById('data').value;
+  const genero = document.getElementById('genero').value;
 
-      if (!nome || !email || !senha || !genero) {
-        alert('Por favor, preencha todos os campos.');
-        return;
-      }
-
-      if (senha.length < 6) {
-        alert('A senha deve conter pelo menos 6 caracteres.');
-        return;
-      }
-
-      // Simula cadastro e login
-      const usuario = { nome, email };
-      localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
-
-      alert('Cadastro realizado com sucesso!');
-      window.location.href = '/';
-
+  try {
+    const resp = await fetch('http://localhost:3000/api/cadastro', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ nome, email, senha, data_nascimento, genero })
     });
-  </script>
+
+    const data = await resp.json();
+    alert(data.message || "Cadastro realizado!");
+
+    if (resp.ok) {
+      window.location.href = 'http://localhost:3000/html/login.html';
+    }
+  } catch (err) {
+    console.error('Erro ao cadastrar:', err);
+    alert('Erro ao conectar com o servidor.');
+  }
+});
+</script>
 </body>
 </html>

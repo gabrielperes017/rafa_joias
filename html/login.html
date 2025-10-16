@@ -5,13 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Rafa Joias Folheadas</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style/login.css">
+  <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-  <!-- Fundo com imagem elegante -->
   <div class="background-image"></div>
 
-  <!-- Container de login -->
   <div class="login-container">
     <img src="/img/logo branca.jpg" alt="Logo Rafa Joias Folheadas" class="logo">
 
@@ -21,7 +19,7 @@
     <form id="login-form">
       <div class="input-group">
         <label for="username">Usuário</label>
-        <input type="text" id="username" name="username" placeholder="Digite seu nome de perfil" required>
+        <input type="text" id="username" name="username" placeholder="Digite seu e-mail" required>
       </div>
 
       <div class="input-group">
@@ -39,27 +37,40 @@
   </div>
 
   <script>
-    // Simula login com base no nome salvo no localStorage
-    document.getElementById('login-form').addEventListener('submit', function (e) {
-      e.preventDefault();
+document.getElementById('login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-      const username = document.getElementById('username').value.trim();
-      const senha = document.getElementById('password').value.trim();
+  const email = document.getElementById('username').value.trim();
+  const senha = document.getElementById('password').value;
 
-      if (!username || !senha) {
-        alert('Por favor, preencha todos os campos.');
-        return;
-      }
-
-      const usuarioSalvo = JSON.parse(localStorage.getItem('usuarioLogado'));
-
-      if (usuarioSalvo && usuarioSalvo.nome === username) {
-        alert(`Bem-vindo(a), ${usuarioSalvo.nome}!`);
-        window.location.href = '/html/main.html';
-      } else {
-        alert('Usuário não encontrado. Verifique seus dados ou cadastre-se.');
-      }
+  try {
+    const resp = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ email, senha })
     });
-  </script>
+
+    const data = await resp.json();
+
+    console.log('🔹 Status:', resp.status);
+    console.log('🔹 Resposta:', data);
+
+    if (resp.ok) {
+      alert('✅ Login bem-sucedido! Redirecionando...');
+      if (resp.ok) {
+      window.location.href = '/html/main.html'; // caminho relativo ao frontend
+}
+  }
+    else {
+      alert(`❌ Erro ${resp.status}: ${data.message || 'Falha no login'}`);
+    }
+  } catch (error) {
+    alert('Erro na conexão com o servidor.');
+    console.error(error);
+  }
+});
+</script>
+
 </body>
 </html>

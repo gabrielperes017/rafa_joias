@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Fontes -->
+  <title>Meu Perfil | Rafa Joias Folheadas</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/perfil.css">
-  <title>Meu Perfil | Rafa Joias Folheadas</title>
 </head>
 <body>
   <!-- ===== CABEÇALHO ===== -->
@@ -23,7 +22,7 @@
 
       <nav class="icones">
         <a href="#" class="icon-btn"><img src="/img/zap.png" alt="WhatsApp"></a>
-        <a href="/perfil" class="icon-btn"><img src="/img/perfil.png" alt="Perfil"></a>
+        <a href="/html/perfil.html" class="icon-btn"><img src="/img/perfil.png" alt="Perfil"></a>
         <a href="/carrinho" class="icon-btn">
           <img src="/img/carrinho.png" alt="Carrinho">
           <span class="cart-count" id="cart-count">0</span>
@@ -33,18 +32,17 @@
     </div>
   </header>
 
-  <!-- ===== PERFIL DO USUÁRIO ===== -->
-  <section class="bloco_perfil">
-    <div class="usuario">
-      <img src="/img/usuario.jpg" alt="Foto do usuário">
-      <h2 id="nome">Carregando...</h2>
-    </div>
+  <!-- ===== CARD PERFIL ===== -->
+  <main class="perfil-container">
+    <div class="perfil-card">
+      <div class="usuario">
+        <h2 id="nome">Carregando...</h2>
+      </div>
 
-    <div class="dados">
-      <div class="info">
-        <p><strong>Email:</strong> <span id="email"></span></p>
-        <p><strong>Telefone:</strong> <span id="telefone"></span></p>
-        <p><strong>Endereço:</strong> <span id="endereco"></span></p>
+      <div class="dados">
+        <p><strong>Email:</strong> <span id="email">—</span></p>
+        <p><strong>Telefone:</strong> <span id="telefone">—</span></p>
+        <p><strong>Endereço:</strong> <span id="endereco">—</span></p>
 
         <div class="botoes">
           <button onclick="editarPerfil()">✏️ Editar Perfil</button>
@@ -52,53 +50,49 @@
         </div>
       </div>
     </div>
-  </section>
+  </main>
 
-  <script>
-    const userKey = "usuario_logado";
-
-    // Cria usuário de exemplo caso não exista
-    if (!localStorage.getItem(userKey)) {
-      const exemploUsuario = {
-        nome: "Rafaela Joias",
-        email: "contato@rafajoias.com",
-        telefone: "(44) 99999-9999",
-        endereco: "Rua das Pérolas, 123 - Cianorte/PR",
-      };
-      localStorage.setItem(userKey, JSON.stringify(exemploUsuario));
+<script>
+async function carregarPerfil() {
+  try {
+    const res = await fetch('/api/perfil', { credentials: 'include' });
+    if (!res.ok) {
+      sessionStorage.setItem('redirectTo', '/html/perfil.html');
+      alert('Por favor, faça login.');
+      window.location.href = '/html/login.html';
+      return;
     }
 
-    const usuario = JSON.parse(localStorage.getItem(userKey));
+    const data = await res.json();
+    const usuario = data.usuario;
 
-    // Mostra os dados
-    document.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("nome").textContent = usuario.nome;
-      document.getElementById("email").textContent = usuario.email;
-      document.getElementById("telefone").textContent = usuario.telefone;
-      document.getElementById("endereco").textContent = usuario.endereco;
-    });
+    document.getElementById('nome').textContent = usuario.nome || '—';
+    document.getElementById('email').textContent = usuario.email || '—';
+    document.getElementById('telefone').textContent = usuario.telefone || '—';
+    document.getElementById('endereco').textContent = usuario.endereco || '—';
+  } catch (err) {
+    console.error('Erro ao carregar perfil:', err);
+    alert('Erro ao carregar perfil. Faça login novamente.');
+    window.location.href = '/html/login.html';
+  }
+}
 
-    // Editar perfil
-    function editarPerfil() {
-      const novoNome = prompt("Novo nome:", usuario.nome);
-      const novoEmail = prompt("Novo e-mail:", usuario.email);
-      const novoTelefone = prompt("Novo telefone:", usuario.telefone);
-      const novoEndereco = prompt("Novo endereço:", usuario.endereco);
+async function sair() {
+  try {
+    await fetch('/api/logout', { method: 'POST', credentials: 'include' });
+    alert('Você saiu.');
+    window.location.href = '/html/login.html';
+  } catch (err) {
+    console.error('Erro ao sair:', err);
+    alert('Erro ao sair. Tente novamente.');
+  }
+}
 
-      if (novoNome && novoEmail) {
-        const atualizado = { nome: novoNome, email: novoEmail, telefone: novoTelefone, endereco: novoEndereco };
-        localStorage.setItem(userKey, JSON.stringify(atualizado));
-        alert("✅ Perfil atualizado!");
-        location.reload();
-      }
-    }
+function editarPerfil() {
+  window.location.href = '/html/editar-perfil.html';
+}
 
-    // Logout
-    function sair() {
-      localStorage.removeItem(userKey);
-      alert("👋 Você saiu da conta.");
-      window.location.href = "/";
-    }
-  </script>
+document.addEventListener('DOMContentLoaded', carregarPerfil);
+</script>
 </body>
 </html>

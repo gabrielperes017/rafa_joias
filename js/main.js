@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+  app.get("/", (req, res) => res.sendFile(path.join(__dirname, "html", "main.html")));
+
 
   // Verifica se o usuário está logado
   if (!localStorage.getItem('usuarioLogado')) {
